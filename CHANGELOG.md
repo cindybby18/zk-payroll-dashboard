@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Dashboard Compensation Policy Effective-Date Validation**: Dashboard-layer check verifying that every compensation policy revision takes effect on a valid, forward-only calendar date before any further compensation change is scheduled.
+  - Pure evaluation module `lib/compensation/compensationPolicyEffectiveDate.ts` with `evaluateCompensationPolicyEffectiveDate`, `assertCompensationPolicyEffectiveDate`, and injectable reference date / scheduling horizon for deterministic checks
+  - Eight effective-date rules: required bounded policy id, required `YYYY-MM-DD` date, real calendar day (rejects roll-over dates such as `2026-02-30`), known lifecycle status, no backdating of pending revisions, single active revision, no duplicate effective dates, and no overlapping policy windows — plus a non-blocking scheduling-horizon advisory
+  - Dashboard component `DashboardCompensationPolicyCheck` rendering accessible `valid` / `warning` / `invalid` states with per-finding remediation steps and a link to `/settings/payroll-policy`, mounted in `DashboardHome` inside an `ErrorBoundary`
+  - Zero compensation leakage: evaluates only policy ids, lifecycle statuses, and effective dates; salary amounts, employee identities, and payout destinations are absent from the domain contracts
+  - Typed domain contracts in `types/compensation.ts` with `CompensationPolicyScheduleEntry`, `CompensationPolicyEffectiveDateCheck`, and `CompensationPolicyEffectiveDateResult`
+  - Comprehensive unit and component test suites in `__tests__/compensation-policy-effective-date.test.ts` and `__tests__/dashboard-compensation-policy-effective-date.test.tsx`
 - **Dashboard Payment Instruction Duplicate Detection (#633)**: Detects, categorizes,
   and explains duplicate payment instructions in payroll drafts or against historical
   execution records in the dashboard layer.

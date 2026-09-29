@@ -19,6 +19,7 @@ import { SessionTimeoutBanner } from "@/components/features/dashboard/SessionTim
 import ErrorBoundary from "@/components/ErrorBoundary";
 import DashboardAssetAvailabilityCheck from "@/components/features/dashboard/DashboardAssetAvailabilityCheck";
 import PayoutScheduleCollisionPanel from "@/components/features/dashboard/PayoutScheduleCollisionPanel";
+import DashboardCompensationPolicyCheck from "@/components/features/dashboard/DashboardCompensationPolicyCheck";
 import PayPeriodClosureReadinessPanel from "@/components/features/dashboard/PayPeriodClosureReadinessPanel";
 import { MOCK_COMPANIES } from "@/lib/api/mockData";
 import { evaluatePayPeriodClosurePrerequisites } from "@/lib/payroll/payPeriodClosurePrerequisites";
@@ -178,6 +179,9 @@ function DashboardHome() {
           templates={[]}
           runs={[]}
         />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <DashboardCompensationPolicyCheck />
       </ErrorBoundary>
       <ErrorBoundary>
         <SystemStatus />
